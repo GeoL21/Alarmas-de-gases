@@ -306,6 +306,7 @@ a.btn{text-decoration:none}
 .torre-tit b{display:block;font-size:15px;font-weight:800;color:var(--vino)}
 .torre-tit small{display:block;font-size:12px;color:var(--suave);font-weight:600}
 .celda{min-height:36px;border-radius:8px;border:1.5px solid var(--linea-suave);background:#fff;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px;font-size:13px;font-weight:700;color:var(--tinta);text-align:left}
+.celda span{flex:1;text-align:left}
 .celda b{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
 .celda.vacio{border-style:dashed;color:var(--suave)}
 .celda.sin{background:#F1F2F4;color:var(--suave)}
@@ -336,7 +337,7 @@ a.btn{text-decoration:none}
 .tabla-al .mini-foto{width:42px;height:42px;border-radius:8px}
 .tenue{color:#8B8F98}
 @media (min-width:1024px){
-  #app{max-width:1440px}
+  #app{max-width:none}
   .principal{display:grid;grid-template-columns:228px minmax(0,1fr);align-items:start}
   .arriba{grid-column:1/-1}
   .cab{padding:12px 24px}
