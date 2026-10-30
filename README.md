@@ -25,13 +25,12 @@ Cada estar es una alarma. Por cada gas que llega (oxígeno, aire, vacío) se cue
 
 En GitHub abre `config.js`, toca el lápiz, reemplaza `PEGA_AQUI_LA_URL_DE_APPS_SCRIPT/exec` por la URL que copiaste y toca **Commit changes**.
 
-## Paso 3: abrir e instalar
+## Paso 3: activar GitHub Pages (una sola vez)
 
-La app se publica con GitHub Pages desde la rama `main` (carpeta raíz) del repositorio `Alarmas-de-gases`:
-https://geol21.github.io/Alarmas-de-gases/
-
-Ábrela en el celular, entra con el código de acceso, elige tu nombre y toca **Instalar**.
-Si algún día Pages queda apagado: **Settings → Pages → Branch: main / (root)**.
+1. En el repositorio `Alarmas-de-gases` ve a **Settings → Pages**.
+2. En **Branch** elige **main** y **/ (root)**, y toca **Save**.
+3. En un par de minutos la app queda en https://geol21.github.io/Alarmas-de-gases/
+4. Ábrela en el celular, entra con el código de acceso, elige tu nombre y toca **Instalar**.
 
 ## Claves
 
