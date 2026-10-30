@@ -32,6 +32,10 @@ En GitHub abre `config.js`, toca el lápiz, reemplaza `PEGA_AQUI_LA_URL_DE_APPS_
 3. En un par de minutos la app queda en https://geol21.github.io/Alarmas-de-gases/
 4. Ábrela en el celular, entra con el código de acceso, elige tu nombre y toca **Instalar**.
 
+## En el PC
+
+Con la ventana ancha (desde 1024 px) la app se acomoda en columnas: menú a la izquierda, formulario en tres columnas, lista de alarmas en tabla, las torres lado a lado en el panel y la vista previa del PDF junto a las opciones. En el celular se ve igual que siempre.
+
 ## Claves
 
 Están en la pestaña **Config** de la hoja y se pueden cambiar ahí:

@@ -296,6 +296,116 @@ a.btn{text-decoration:none}
 .toast>div.con-accion{pointer-events:auto;padding:6px 6px 6px 16px}
 .toast button{border:0;background:rgba(255,255,255,.12);color:#F6C9D8;font-weight:800;font-size:14px;border-radius:10px;min-height:44px;padding:0 12px;display:flex;align-items:center;gap:6px;flex:none}
 @keyframes sube{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+
+/* Vista de PC: columnas en vez de una sola tira */
+.col-reg,.col-pdf{display:contents}
+.vista-pdf{display:none}
+.torres{display:flex;gap:12px;align-items:flex-end;overflow-x:auto;padding-bottom:4px}
+.torre-col{display:flex;flex-direction:column;gap:4px;min-width:120px;flex:1 1 0}
+.torre-tit{text-align:center;margin-bottom:6px}
+.torre-tit b{display:block;font-size:15px;font-weight:800;color:var(--vino)}
+.torre-tit small{display:block;font-size:12px;color:var(--suave);font-weight:600}
+.celda{min-height:36px;border-radius:8px;border:1.5px solid var(--linea-suave);background:#fff;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px;font-size:13px;font-weight:700;color:var(--tinta);text-align:left}
+.celda b{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
+.celda.vacio{border-style:dashed;color:var(--suave)}
+.celda.sin{background:#F1F2F4;color:var(--suave)}
+.celda.n1{background:var(--vino-suave);border-color:var(--vino-medio)}
+.celda.n2{background:#E8C4D2;border-color:#D9A9BC;color:var(--vino-osc)}
+.celda.n3{background:#A8436A;border-color:#A8436A;color:#fff}
+.celda:hover{border-color:var(--vino)}
+.celda[aria-pressed="true"]{outline:3px solid var(--vino);outline-offset:1px}
+.celda-espacio{min-height:36px}
+.leyenda{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--suave);margin-top:12px}
+.leyenda span{display:inline-flex;align-items:center;gap:6px}
+.leyenda i{width:18px;height:12px;border-radius:3px;display:inline-block;border:1.5px solid var(--linea-suave);background:#fff}
+.detalle-piso{background:var(--fondo);border-radius:12px;padding:14px;min-height:220px}
+.detalle-piso h3{font-size:17px;font-weight:800;margin:0}
+.detalle-piso .sub{font-size:13px;color:var(--suave);margin:2px 0 10px}
+.detalle-piso .acciones{margin-top:10px}
+.tabla-al{width:100%;border-collapse:collapse;background:#fff;font-size:14px;border:1px solid var(--linea)}
+.tabla-al th,.tabla-al td{padding:8px 12px;text-align:left;vertical-align:middle;border-bottom:1px solid var(--linea-suave)}
+.tabla-al thead th{background:var(--vino);color:#fff;font-size:13px;font-weight:700;white-space:nowrap}
+.tabla-al .t-grupo th{background:var(--vino-suave);color:var(--vino-osc);font-size:13px;font-weight:800}
+.tabla-al .t-grupo th span{float:right;color:var(--suave);font-weight:700}
+.tabla-al tr[data-editar]{cursor:pointer}
+.tabla-al tr[data-editar]:hover td{background:#FBF6F8}
+.tabla-al td b{font-weight:800}
+.tabla-al td small{display:block;font-size:12px;color:var(--suave)}
+.tabla-al .c-num{text-align:right;white-space:nowrap}
+.tabla-al .c-foto{width:58px;padding-right:0}
+.tabla-al .mini-foto{width:42px;height:42px;border-radius:8px}
+.tenue{color:#8B8F98}
+@media (min-width:1024px){
+  #app{max-width:1440px}
+  .principal{display:grid;grid-template-columns:228px minmax(0,1fr);align-items:start}
+  .arriba{grid-column:1/-1}
+  .cab{padding:12px 24px}
+  .cab h1{font-size:20px}
+  .franja{padding:8px 24px}
+  .nav{position:sticky;top:var(--alto-arriba,76px);left:auto;right:auto;bottom:auto;grid-column:1;grid-row:2;align-self:start;height:calc(100dvh - var(--alto-arriba,76px));border-top:0;border-right:1px solid var(--linea);padding:16px 12px;display:block;z-index:3}
+  .nav .dentro{display:flex;flex-direction:column;gap:4px;max-width:none}
+  .nav button{flex-direction:row;justify-content:flex-start;gap:12px;min-height:50px;padding:0 14px;border-radius:12px;font-size:15px}
+  .nav button:hover{background:var(--fondo)}
+  .nav button[aria-current="page"]{background:var(--vino-suave)}
+  .nav button[aria-current="page"]::before{top:12px;bottom:12px;left:0;right:auto;width:4px;height:auto;border-radius:0 4px 4px 0}
+  .nav .punto{position:static;margin-left:auto}
+  .cuerpo{grid-column:2;grid-row:2;padding:20px 28px 40px;gap:16px}
+  #vRegistrar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;padding-bottom:40px}
+  #vRegistrar>.instalar,#vRegistrar>.tira{grid-column:1/-1}
+  .col-reg,.col-pdf{display:flex;flex-direction:column;gap:16px;min-width:0}
+  .barra{position:sticky;bottom:16px;left:auto;right:auto;z-index:3;display:block;pointer-events:auto}
+  .barra .dentro{padding:0;background:none;max-width:none}
+  .toast{left:auto;right:28px;bottom:24px;justify-content:flex-end}
+  #vAlarmas{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px 16px}
+  #vAlarmas .buscar{flex:1 1 240px;max-width:360px;min-height:46px}
+  #vAlarmas .scroll{flex:0 1 auto;margin:0;padding:0;overflow:visible;flex-wrap:wrap}
+  #listaAlarmas{flex:1 1 100%;min-width:0}
+  .tarjeta{padding:14px 16px}
+  .tit-tarjeta{margin-bottom:10px;font-size:15px}
+  .chip{min-height:38px;padding:0 14px;font-size:14px}
+  .chip.mini{min-height:36px}
+  #fCableRapido .chip{min-height:38px}
+  .seg button{min-height:40px;font-size:14px}
+  .piso{min-height:44px;font-size:16px}
+  .gas-t{min-height:62px}
+  .redondo{width:42px;height:42px}
+  .paso output{min-width:84px;font-size:17px}
+  .fila-estar{margin-top:12px}
+  .entrada{min-height:46px;font-size:16px;padding:10px 12px}
+  .metros .entrada{min-height:50px;font-size:24px}
+  .foto-btn{min-height:52px}
+  .foto-ok img,.foto-ok .sin-img{width:68px;height:68px}
+  .btn{min-height:48px}
+  .alcance button{min-height:52px}
+  .interruptor{min-height:52px}
+  #vPanel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+  #pSede{grid-column:1/-1;max-width:520px}
+  #pCifras{grid-column:1/-1;grid-template-columns:repeat(4,minmax(0,1fr))}
+  #pAvance{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  #pAvance .avance+.avance{margin-top:0}
+  #pSeccionPisos{grid-column:1/-1}
+  #pTorre{display:none!important}
+  .mapa-pc{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);gap:20px;align-items:start}
+  #vPdf{display:grid;grid-template-columns:minmax(340px,440px) minmax(0,1fr);align-items:start}
+  .col-vista{position:sticky;top:calc(var(--alto-arriba,76px) + 16px)}
+  .vista-pdf{display:block;background:#fff;border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden;height:calc(100dvh - var(--alto-arriba,76px) - 56px);min-height:420px}
+  .col-vista .resultado:not(.oculto)+.vista-pdf{height:calc(100dvh - var(--alto-arriba,76px) - 260px)}
+  .vista-pdf iframe{width:100%;height:100%;border:0;display:block}
+  .vista-pdf .vacio{height:100%;justify-content:center}
+  #vAjustes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+  #vAjustes>.volver,#vAjustes>#ajVersion{grid-column:1/-1}
+  .pantalla{width:100%;max-width:460px;margin:0 auto}
+}
+@media (hover:hover) and (min-width:1024px){
+  .chip:hover,.piso:hover,.alcance button:hover,.fila-piso:hover,.gas-t:hover,.redondo:hover{border-color:var(--vino)}
+  .btn:hover{background:var(--vino-suave)}
+  .btn.prin:hover{background:var(--vino-osc)}
+  .seg button:hover:not([aria-pressed="true"]){background:rgba(121,2,44,.08)}
+  .chip[aria-pressed="true"]:hover,.piso[aria-pressed="true"]:hover{border-color:var(--vino-osc)}
+}
+@media (min-width:1024px) and (max-width:1279px){
+  .tabla-al .col-obs,.tabla-al .col-tec{display:none}
+}
 </style>
 </head>
 <body>
@@ -409,6 +519,7 @@ a.btn{text-decoration:none}
         <button id="btnCancelarTira" type="button"><svg class="i s"><use href="#i-x"/></svg>Cancelar</button>
       </div>
 
+      <div class="col-reg">
       <section class="tarjeta" aria-labelledby="tDonde">
         <h2 class="tit-tarjeta" id="tDonde"><svg class="i"><use href="#i-sede"/></svg>¿Dónde estás?</h2>
         <div id="fSede" class="seg" role="group" aria-label="Sede"></div>
@@ -439,7 +550,9 @@ a.btn{text-decoration:none}
         </div>
         <p class="error-campo oculto" data-error="estar" style="margin-top:8px"></p>
       </section>
+      </div>
 
+      <div class="col-reg">
       <section class="tarjeta" aria-labelledby="tGases">
         <h2 class="tit-tarjeta" id="tGases"><svg class="i"><use href="#i-manometro"/></svg>¿Qué gases llegan?</h2>
         <div id="fGases" class="gases" role="group" aria-label="Gases">
@@ -464,7 +577,9 @@ a.btn{text-decoration:none}
           <div id="fValvulaUsadas" class="chips"></div>
         </div>
       </section>
+      </div>
 
+      <div class="col-reg">
       <section class="tarjeta" aria-labelledby="tCable">
         <h2 class="tit-tarjeta" id="tCable"><svg class="i"><use href="#i-regla"/></svg>Cable de la válvula a la alarma</h2>
         <div class="cable-paso">
@@ -510,6 +625,14 @@ a.btn{text-decoration:none}
           </div>
         </div>
       </div>
+
+      <div id="barraGuardar" class="barra">
+        <div class="dentro" id="barraDentro">
+          <button id="btnCancelarEd" type="button" class="btn oculto">Cancelar</button>
+          <button id="btnGuardar" type="button" class="btn prin"><svg class="i"><use href="#i-guardar"/></svg><span id="btnGuardarTxt">Guardar y seguir</span></button>
+        </div>
+      </div>
+      </div>
     </main>
 
     <!-- Alarmas -->
@@ -530,7 +653,7 @@ a.btn{text-decoration:none}
       <div id="pSede" class="seg" role="group" aria-label="Sede"></div>
       <div id="pCifras" class="cifras"></div>
       <div id="pAvance" class="tarjeta"></div>
-      <section class="tarjeta" aria-labelledby="tPisos">
+      <section class="tarjeta" id="pSeccionPisos" aria-labelledby="tPisos">
         <h2 class="tit-tarjeta" id="tPisos"><svg class="i"><use href="#i-edificio"/></svg>Piso por piso</h2>
         <div id="pTorre" class="seg" role="group" aria-label="Torre"></div>
         <div id="pPisos"></div>
@@ -547,6 +670,7 @@ a.btn{text-decoration:none}
 
     <!-- PDF -->
     <main id="vPdf" class="cuerpo oculto">
+      <div class="col-pdf">
       <span class="etq">¿Qué va en el PDF?</span>
       <div id="qAlcance" class="alcance" role="group" aria-label="Qué incluir"></div>
       <div id="qElegir" class="tarjeta"></div>
@@ -557,7 +681,11 @@ a.btn{text-decoration:none}
       <div id="qResumen" class="resumen-alarma"></div>
       <button id="btnGenerar" type="button" class="btn prin"><svg class="i"><use href="#i-pdf"/></svg>Generar PDF</button>
       <p id="qAviso" class="error-campo oculto" role="alert"></p>
-      <div id="qResultado" class="tarjeta resultado oculto"></div>
+      </div>
+      <div class="col-pdf col-vista">
+        <div id="qResultado" class="tarjeta resultado oculto"></div>
+        <div id="qVista" class="vista-pdf oculto"></div>
+      </div>
     </main>
 
     <!-- Ajustes -->
@@ -598,12 +726,6 @@ a.btn{text-decoration:none}
       <p class="ayuda centro" id="ajVersion"></p>
     </main>
 
-    <div id="barraGuardar" class="barra">
-      <div class="dentro" id="barraDentro">
-        <button id="btnCancelarEd" type="button" class="btn oculto">Cancelar</button>
-        <button id="btnGuardar" type="button" class="btn prin"><svg class="i"><use href="#i-guardar"/></svg><span id="btnGuardarTxt">Guardar y seguir</span></button>
-      </div>
-    </div>
 
     <nav class="nav" aria-label="Secciones">
       <div class="dentro">

@@ -126,6 +126,16 @@ function toast(html, accion) {
   relojToast = setTimeout(function() { caja.innerHTML = ''; }, accion ? 6000 : 2800);
 }
 
+/** En PC (pantalla ancha) la app se ve en columnas. */
+const MQ_PC = window.matchMedia ? window.matchMedia('(min-width: 1024px)') : null;
+function esPC() { return !!(MQ_PC && MQ_PC.matches); }
+
+/** Alto del encabezado fijo, para que el menú lateral y la vista previa queden debajo. */
+function medirArriba() {
+  const el = $('arriba');
+  if (el && el.offsetHeight) document.documentElement.style.setProperty('--alto-arriba', el.offsetHeight + 'px');
+}
+
 /** Lleva un elemento a la vista sin que quede bajo el encabezado fijo. */
 function verElemento(el) {
   if (!el) return;
@@ -855,7 +865,7 @@ async function guardarAhora() {
     guardarContexto();
     pintarRegistrar();
     toast(ico('check', 's') + esc(servicio) + ' · ESTAR ' + a.estar + ' guardado', { texto: 'Deshacer', fn: deshacer });
-    verElemento($('tarjetaEstar'));
+    if (!esPC()) verElemento($('tarjetaEstar'));
   }
   sincronizar();
 }
@@ -1164,6 +1174,7 @@ function pintarFranja() {
     }, 3000);
   }
   pintarPuntoNav();
+  medirArriba();
   if (S.vista === 'ajustes' && $('ajCola')) pintarColaAjustes();
   if (S.vista === 'pdf' && S.pdfActual) pintarResultadoPdf();
 }
@@ -1281,11 +1292,38 @@ function pintarAlarmas() {
     if (!grupos.length || grupos[grupos.length - 1].k !== k) grupos.push({ k: k, a: a, items: [] });
     grupos[grupos.length - 1].items.push(a);
   });
+  if (esPC()) { $('listaAlarmas').innerHTML = tablaAlarmas(grupos, !fl.sede); return; }
   $('listaAlarmas').innerHTML = grupos.map(function(g) {
     return '<div class="grupo"><h3><span>' + esc((fl.sede ? '' : g.a.sede + ' · ') + g.a.torre + ' · ' + nombrePiso(g.a.piso)) +
       '</span><span>' + plural(g.items.length, 'alarma', 'alarmas') + '</span></h3><div class="lista">' +
       g.items.map(filaAlarma).join('') + '</div></div>';
   }).join('');
+}
+
+/** En PC la lista se ve como tabla, agrupada por torre y piso. */
+function tablaAlarmas(grupos, conSede) {
+  const cab = '<thead><tr><th class="c-foto"><span class="sr">Foto</span></th><th>Servicio</th><th class="c-num">Estar</th>' +
+    '<th>Gases</th><th class="c-num">Cable</th><th>Válvula de cierre</th><th class="col-obs">Observación</th>' +
+    '<th class="col-tec">Registró</th><th>Estado</th></tr></thead>';
+  return '<table class="tabla-al">' + cab + grupos.map(function(g) {
+    return '<tbody><tr class="t-grupo"><th colspan="9">' + esc((conSede ? g.a.sede + ' · ' : '') + g.a.torre + ' · ' + nombrePiso(g.a.piso)) +
+      '<span>' + plural(g.items.length, 'alarma', 'alarmas') + '</span></th></tr>' + g.items.map(function(a) {
+        const mini = imgSegura(S.minis[a.id]);
+        const g2 = gasesDe(a);
+        return '<tr data-editar="' + esc(a.id) + '" tabindex="0" title="Editar">' +
+          '<td class="c-foto">' + (mini ? '<img class="mini-foto" src="' + mini + '" alt="">'
+            : '<span class="mini-foto">' + ico(a.mini || a.foto ? 'foto' : 'camara', 's') + '</span>') + '</td>' +
+          '<td><b>' + esc(a.servicio) + '</b>' +
+            (a.pendiente ? '<small class="sin-subir">' + ico('sinred', 's') + 'Sin subir</small>' : '') + '</td>' +
+          '<td class="c-num">' + a.estar + '</td>' +
+          '<td>' + puntos(g2.join('')) + g2.map(function(k) { return GAS[k].corto; }).join(' · ') + '</td>' +
+          '<td class="c-num">' + g2.length + ' × ' + num(a.cable) + ' m<small>' + num(g2.length * a.cable) + ' m</small></td>' +
+          '<td>' + (a.valvula ? esc(a.valvula) : '<span class="tenue">-</span>') + '</td>' +
+          '<td class="col-obs">' + (a.obs ? esc(a.obs) : '<span class="tenue">-</span>') + '</td>' +
+          '<td class="col-tec">' + esc(a.tecnico) + '</td>' +
+          '<td>' + botonEstado(a) + '</td></tr>';
+      }).join('') + '</tbody>';
+  }).join('') + '</table>';
 }
 
 
@@ -1336,6 +1374,9 @@ function pintarPanel() {
   $('pAvance').innerHTML = avance('Instaladas', r.instaladas, r.total, 'var(--ok)') +
     avance('Pisos levantados', levantados, total, 'var(--vino)');
 
+  if (esPC()) {
+    pintarMapaPC(sedes);
+  } else {
   if (claves.indexOf(p.torre) < 0) { p.torre = claves[0] || ''; p.abierto = ''; }
   $('pTorre').innerHTML = claves.map(function(k) {
     const sede = k.slice(0, k.indexOf('|')), torre = k.slice(k.indexOf('|') + 1);
@@ -1376,6 +1417,7 @@ function pintarPanel() {
     }
     return h;
   }).join('') || '<p class="ayuda">Esta torre no tiene pisos configurados.</p>';
+  }
 
   const mx = Math.max(1, r.porGas.O, r.porGas.A, r.porGas.V);
   $('pGases').innerHTML = GASES.map(function(g) {
@@ -1388,6 +1430,78 @@ function pintarPanel() {
   $('pTipos').innerHTML = tipos.length ? tipos.map(function(t) {
     return '<div class="tipo"><span>' + puntos(t) + esc(nombreTipo(t)) + '</span><b>' + r.tipos[t] + '</b></div>';
   }).join('') : '<p class="ayuda">Aún no hay alarmas registradas.</p>';
+}
+
+
+/** PC: todas las torres lado a lado (como edificios) y el detalle del piso elegido al lado. */
+function pintarMapaPC(sedes) {
+  const p = S.panel;
+  const cols = [];
+  sedes.forEach(function(s) {
+    torresDe(s).forEach(function(t) {
+      const niveles = leerNiveles(t.niveles);
+      const uno = niveles.findIndex(function(n) { return n.k === '1'; });
+      cols.push({ sede: s, torre: t.nombre, niveles: niveles, bajo: uno > 0 ? uno : 0 });
+    });
+  });
+  const clave = function(c) { return c.sede + '|' + c.torre; };
+  // Si no hay piso elegido, se muestra el primero con alarmas
+  const valido = cols.some(function(c) {
+    return clave(c) === p.torre && c.niveles.some(function(n) { return n.k === p.abierto; });
+  });
+  if (!valido) {
+    p.torre = cols[0] ? clave(cols[0]) : '';
+    p.abierto = '';
+    cols.some(function(c) {
+      const n = c.niveles.slice().reverse().find(function(x) { return contar(c.sede, c.torre, x.k); });
+      if (n) { p.torre = clave(c); p.abierto = n.k; return true; }
+      return false;
+    });
+  }
+  const maxBajo = Math.max.apply(null, [0].concat(cols.map(function(c) { return c.bajo; })));
+  const mapa = cols.map(function(c) {
+    const n = S.alarmas.filter(function(a) { return a.sede === c.sede && a.torre === c.torre; }).length;
+    const celdas = c.niveles.slice().reverse().map(function(nv) {
+      const k = contar(c.sede, c.torre, nv.k);
+      const sin = !k && esSinAlarma(c.sede, c.torre, nv.k);
+      const tipo = k >= 3 ? 'n3' : (k === 2 ? 'n2' : (k === 1 ? 'n1' : (sin ? 'sin' : 'vacio')));
+      const elegido = clave(c) === p.torre && nv.k === p.abierto;
+      return '<button type="button" class="celda ' + tipo + '" data-celda-torre="' + esc(clave(c)) + '" data-celda-piso="' +
+        esc(nv.k) + '" aria-pressed="' + elegido + '" aria-label="' + esc(c.torre + ', ' + nv.nombre + ': ' +
+        (k ? plural(k, 'alarma', 'alarmas') : (sin ? 'no lleva alarma' : 'sin levantar'))) + '"><span>' + esc(nv.nombre) +
+        '</span><b>' + (k ? k : (sin ? '—' : '')) + '</b></button>';
+    });
+    for (let i = c.bajo; i < maxBajo; i++) celdas.push('<div class="celda-espacio"></div>');
+    return '<div class="torre-col"><div class="torre-tit"><b>' + esc(c.torre) + '</b><small>' +
+      (sedes.length > 1 ? esc(c.sede) + ' · ' : '') + plural(n, 'alarma', 'alarmas') + '</small></div>' + celdas.join('') + '</div>';
+  }).join('');
+  const leyenda = '<div class="leyenda"><span><i class="n1" style="background:var(--vino-suave)"></i>1 alarma</span>' +
+    '<span><i style="background:#E8C4D2"></i>2</span><span><i style="background:#A8436A;border-color:#A8436A"></i>3 o más</span>' +
+    '<span><i style="background:#F1F2F4"></i>No lleva alarma</span><span><i style="border-style:dashed"></i>Sin levantar</span></div>';
+  $('pPisos').innerHTML = cols.length
+    ? '<div class="mapa-pc"><div><div class="torres">' + mapa + '</div>' + leyenda + '</div><div class="detalle-piso">' +
+      detallePisoPC() + '</div></div>'
+    : '<p class="ayuda">Esta sede no tiene torres configuradas.</p>';
+}
+
+function detallePisoPC() {
+  const p = S.panel;
+  if (!p.torre || !p.abierto) return '<p class="ayuda">Toca un piso para ver sus estares.</p>';
+  const sede = p.torre.slice(0, p.torre.indexOf('|')), torre = p.torre.slice(p.torre.indexOf('|') + 1);
+  const nv = nivelInfo(p.abierto);
+  const L = alarmasDelPiso(sede, torre, p.abierto).sort(comparar);
+  const k = L.length;
+  const sin = !k && esSinAlarma(sede, torre, p.abierto);
+  const rr = resumir(L);
+  return '<h3>' + esc(torre + ' · ' + nv.nombre) + '</h3><p class="sub">' + esc(sede) + ' · ' + (k
+      ? plural(k, 'alarma', 'alarmas') + ' · ' + plural(rr.sensores, 'sensor', 'sensores') + ' · ' + num(rr.cable) + ' m de cable'
+      : (sin ? 'Revisado: no lleva alarma' : 'Sin levantar')) + '</p>' +
+    (k ? '<div class="lista">' + L.map(filaAlarma).join('') + '</div>' : '') +
+    '<div class="acciones">' +
+    (k ? '<button type="button" class="btn mini" data-pdf-piso="' + esc(p.abierto) + '">' + ico('pdf', 's') + 'PDF de este piso</button>' : '') +
+    '<button type="button" class="btn mini" data-registrar-piso="' + esc(p.abierto) + '">' + ico('mas', 's') + 'Registrar aquí</button>' +
+    (!k ? '<button type="button" class="btn mini" data-sin-piso="' + (sin ? '0' : '1') + '" data-piso="' + esc(p.abierto) + '">' +
+      (sin ? 'Desmarcar' : 'No lleva alarma') + '</button>' : '') + '</div>';
 }
 
 
@@ -1515,11 +1629,36 @@ function pintarPdf() {
       plural(r.sensores, 'accesorio', 'accesorios') + ' · ' + num(r.cable) + ' m de cable'
     : 'Sin alarmas en esta selección.');
   pintarResultadoPdf();
+  pintarVistaPdf();
+}
+
+/** PC: el PDF generado se ve a la derecha. */
+function pintarVistaPdf() {
+  const caja = $('qVista');
+  const r = S.pdfActual;
+  caja.classList.toggle('oculto', !esPC());
+  if (!esPC()) return;
+  if (!r) {
+    if (caja.dataset.url || !caja.firstChild) {
+      delete caja.dataset.url;
+      caja.innerHTML = '<div class="vacio">' + ico('pdf', 'l') + '<b>Vista previa</b><span>Elige qué va en el PDF y toca Generar PDF para verlo aquí.</span></div>';
+    }
+    return;
+  }
+  if (!r.url) r.url = URL.createObjectURL(r.blob);
+  if (caja.dataset.url === r.url) return;
+  caja.dataset.url = r.url;
+  caja.innerHTML = '<iframe src="' + r.url + '#view=FitH" title="Vista previa del PDF"></iframe>';
+}
+
+function soltarPdf() {
+  if (S.pdfActual && S.pdfActual.url) URL.revokeObjectURL(S.pdfActual.url);
+  S.pdfActual = null;
 }
 
 function cambioPdf(cambios) {
   Object.assign(S.pdf, cambios);
-  S.pdfActual = null;
+  soltarPdf();
   avisoPdf('');
   ls('ag_pdf_op', { fotos: S.pdf.fotos, firmas: S.pdf.firmas });
   pintarPdf();
@@ -1822,11 +1961,13 @@ async function generarPdf() {
   try {
     const minis = S.pdf.fotos ? await minisPara(lista) : {};
     const hecho = await construirPdf(lista, { titulo: tituloPdf(), fotos: S.pdf.fotos, firmas: S.pdf.firmas, minis: minis });
+    soltarPdf();
     S.pdfActual = { blob: hecho.blob, paginas: hecho.paginas, nombre: nombreArchivoPdf(), alarmas: lista.length, drive: '', uid: '' };
     pintarResultadoPdf();
+    pintarVistaPdf();
     const sinFoto = S.pdf.fotos ? lista.filter(function(a) { return !minis[a.id]; }).length : 0;
     toast(ico('check', 's') + 'PDF listo' + (sinFoto ? ' · ' + plural(sinFoto, 'alarma', 'alarmas') + ' sin foto' : ''));
-    verElemento($('qResultado'));
+    if (!esPC()) verElemento($('qResultado'));
   } catch (e) {
     avisoPdf(e.message || 'No se pudo generar el PDF.');
   } finally {
@@ -2087,6 +2228,7 @@ function seguir() {
   if (!codigoAcceso()) { mostrarAcceso(''); return; }
   if (!S.tecnico) { mostrarTurno(); return; }
   mostrarPantalla('principal');
+  medirArriba();
   irA(S.vista === 'ajustes' ? 'registrar' : S.vista);
   pintarFranja();
   pintarInstalar();
@@ -2117,8 +2259,9 @@ function eventos() {
 
   // --- Registrar ---
   // Cualquier cambio en el formulario deja guardar de una vez (el bloqueo es solo contra el doble toque)
-  $('vRegistrar').addEventListener('click', function() { bloqueoHasta = 0; }, true);
-  $('vRegistrar').addEventListener('input', function() { bloqueoHasta = 0; }, true);
+  const quitarBloqueo = function(e) { if (!e.target.closest('#barraGuardar')) bloqueoHasta = 0; };
+  $('vRegistrar').addEventListener('click', quitarBloqueo, true);
+  $('vRegistrar').addEventListener('input', quitarBloqueo, true);
   $('fSede').addEventListener('click', function(e) {
     const b = e.target.closest('[data-sede]');
     if (b && b.dataset.sede !== S.f.sede) {
@@ -2267,6 +2410,10 @@ function eventos() {
   // --- Alarmas ---
   $('buscar').addEventListener('input', function() { S.filtro.q = this.value; pintarAlarmas(); });
   $('limpiarBuscar').onclick = function() { $('buscar').value = ''; S.filtro.q = ''; pintarAlarmas(); $('buscar').focus(); };
+  $('listaAlarmas').addEventListener('keydown', function(e) {
+    const fila = e.target.closest && e.target.closest('tr[data-editar]');
+    if (fila && e.target === fila && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); abrirEdicion(fila.dataset.editar); }
+  });
   $('vAlarmas').addEventListener('click', function(e) {
     const s = e.target.closest('[data-f-sede]');
     const est = e.target.closest('[data-f-estado]');
@@ -2288,6 +2435,13 @@ function eventos() {
     const reg = e.target.closest('[data-registrar-piso]');
     const sin = e.target.closest('[data-sin-piso]');
     const fila = e.target.closest('[data-fila-piso]');
+    const celda = e.target.closest('[data-celda-piso]');
+    if (celda) {
+      S.panel.torre = celda.dataset.celdaTorre;
+      S.panel.abierto = celda.dataset.celdaPiso;
+      pintarPanel();
+      return;
+    }
     const torre = S.panel.torre;
     const sede = torre.slice(0, torre.indexOf('|')), nombreTorre = torre.slice(torre.indexOf('|') + 1);
     if (s) { S.panel.sede = s.dataset.pSede; S.panel.abierto = ''; pintarPanel(); }
@@ -2296,7 +2450,7 @@ function eventos() {
     else if (ed) abrirEdicion(ed.dataset.editar);
     else if (pdf) {
       Object.assign(S.pdf, { modo: 'piso', sede: sede, torre: nombreTorre, piso: pdf.dataset.pdfPiso });
-      S.pdfActual = null;
+      soltarPdf();
       irA('pdf');
     } else if (reg) {
       if (S.editando) terminarEdicion();
@@ -2371,6 +2525,13 @@ function eventos() {
     if (e.target.id === 'ajClave') avisoAjustes('');
   });
   $('ajGuardar').onclick = guardarAjustes;
+
+  // --- PC o celular: al cambiar el ancho se reacomoda la vista ---
+  if (MQ_PC) {
+    const alCambiar = function() { medirArriba(); repintar(); };
+    if (MQ_PC.addEventListener) MQ_PC.addEventListener('change', alCambiar); else if (MQ_PC.addListener) MQ_PC.addListener(alCambiar);
+  }
+  window.addEventListener('resize', medirArriba);
 
   // --- Conexión ---
   window.addEventListener('online', function() { sincronizar(); if (S.vista === 'pdf') pintarResultadoPdf(); });
