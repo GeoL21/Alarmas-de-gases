@@ -50,11 +50,11 @@ Baranoa queda como `Edificio: 1-3` hasta que se defina; se cambia en Ajustes o e
 
 ## Qué hay en la hoja
 
-- **Alarmas**: una fila por estar, con técnico, sede, torre, piso, servicio, gases, sensores, accesorios, cable, válvula, observación, estado y link a la foto.
+- **Alarmas**: una fila por estar, con técnico, sede, torre, piso, servicio, gases, sensores, accesorios, cable, ubicación de la válvula de cierre, observación, estado y link a la foto del lugar donde va la alarma.
 - **Pisos sin alarma**: pisos revisados que no llevan alarma.
 - **Historial**: quién registró, editó, cambió el estado o borró, y cuándo.
 - **Config**: sedes, torres, técnicos, servicios sugeridos, reserva de cable y claves.
-- **Miniaturas** (oculta): foto pequeña de cada punto para las miniaturas del PDF.
+- **Miniaturas** (oculta): foto pequeña del lugar de cada alarma, para el PDF.
 
 ## Si cambias archivos de la app
 

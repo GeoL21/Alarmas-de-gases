@@ -451,9 +451,13 @@ a.btn{text-decoration:none}
       </section>
 
       <section class="tarjeta" aria-labelledby="tFoto">
-        <h2 class="tit-tarjeta" id="tFoto"><svg class="i"><use href="#i-camara"/></svg>Foto y válvula</h2>
+        <h2 class="tit-tarjeta" id="tFoto"><svg class="i"><use href="#i-camara"/></svg>Foto del lugar de la alarma</h2>
         <div id="fFoto"></div>
         <input id="fFotoArchivo" type="file" accept="image/*" capture="environment" class="oculto" aria-hidden="true" tabindex="-1">
+      </section>
+
+      <section class="tarjeta" aria-labelledby="tValvula">
+        <h2 class="tit-tarjeta" id="tValvula"><svg class="i"><use href="#i-sede"/></svg>Válvula de cierre</h2>
         <div class="campo">
           <label class="etq" for="fValvula">Ubicación de la válvula de cierre<em>opcional</em></label>
           <input id="fValvula" class="entrada mayus" placeholder="Pasillo frente al estar" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done">
@@ -547,7 +551,7 @@ a.btn{text-decoration:none}
       <div id="qAlcance" class="alcance" role="group" aria-label="Qué incluir"></div>
       <div id="qElegir" class="tarjeta"></div>
       <div class="tarjeta" style="padding:4px 14px">
-        <button id="qFotos" type="button" class="interruptor" role="switch" aria-checked="false"><span><b>Incluir fotos</b><small>Miniatura en cada fila</small></span><span class="sw"></span></button>
+        <button id="qFotos" type="button" class="interruptor" role="switch" aria-checked="false"><span><b>Incluir fotos</b><small>Foto del lugar de la alarma en cada fila</small></span><span class="sw"></span></button>
         <button id="qFirmas" type="button" class="interruptor" role="switch" aria-checked="true"><span><b>Líneas de firma</b><small>Elaboró y revisó</small></span><span class="sw"></span></button>
       </div>
       <div id="qResumen" class="resumen-alarma"></div>

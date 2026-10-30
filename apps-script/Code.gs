@@ -10,9 +10,10 @@
  *   Historial         → quién registró, editó o borró, y cuándo
  *   Config            → sedes, torres y pisos, técnicos, servicios,
  *                       reserva de cable y claves
- *   Miniaturas        → foto pequeña de cada alarma para el PDF (oculta)
+ *   Miniaturas        → foto pequeña del lugar de cada alarma, para el PDF (oculta)
  *
- * Las fotos y los PDF quedan en dos carpetas de Drive junto a la hoja:
+ * Las fotos (del lugar donde va cada alarma) y los PDF quedan en dos
+ * carpetas de Drive junto a la hoja:
  *   "Alarmas de gases - Fotos" y "Alarmas de gases - PDF".
  *
  * La PWA llama por POST con { accion, codigo, ... }.
@@ -29,7 +30,7 @@ const HOJA_MIN = 'Miniaturas';
 const ENCABEZADOS = ['ID', 'Fecha de registro', 'Técnico', 'Sede', 'Torre', 'Piso', 'Servicio', 'Estar',
   'Oxígeno', 'Aire', 'Vacío', 'N.º de gases', 'Sensores', 'Accesorios para sensor',
   'Cable por gas (m)', 'Cable total (m)', 'Ubicación de la válvula', 'Observación', 'Estado',
-  'Foto', 'Última modificación', 'Modificado por'];
+  'Foto del lugar de la alarma', 'Última modificación', 'Modificado por'];
 
 const COL = {
   ID: 0, FECHA: 1, TEC: 2, SEDE: 3, TORRE: 4, PISO: 5, SERV: 6, ESTAR: 7, O: 8, A: 9, V: 10,

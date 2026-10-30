@@ -647,19 +647,19 @@ function pintarFoto() {
   const f = S.f;
   const caja = $('fFoto');
   const ed = S.editando;
-  let tiene = !!f.foto, src = imgSegura(f.fotoMini), titulo = 'Foto lista', sub = 'Se sube con la alarma.';
+  let tiene = !!f.foto, src = imgSegura(f.fotoMini), titulo = 'Foto del lugar lista', sub = 'Se sube con la alarma.';
   if (!tiene && ed && !f.quitarFoto && (ed.mini || ed.foto)) {
     tiene = true;
     src = imgSegura(S.minis[ed.id]);
-    titulo = 'Foto guardada';
+    titulo = 'Foto del lugar guardada';
     sub = ed.foto ? 'Está en la carpeta de fotos de Drive.' : 'Se sube con la alarma.';
   }
   if (!tiene) {
-    caja.innerHTML = '<button type="button" class="foto-btn" data-foto="tomar">' + ico('camara') + 'Tomar foto del punto</button>';
+    caja.innerHTML = '<button type="button" class="foto-btn" data-foto="tomar">' + ico('camara') + 'Foto de dónde va la alarma</button>';
     return;
   }
   caja.innerHTML = '<div class="foto-ok">' +
-    (src ? '<img src="' + src + '" alt="Foto del punto">' : '<span class="sin-img">' + ico('foto') + '</span>') +
+    (src ? '<img src="' + src + '" alt="Foto del lugar de la alarma">' : '<span class="sin-img">' + ico('foto') + '</span>') +
     '<div class="txt"><b>' + titulo + '</b><small>' + sub + '</small><div class="acciones">' +
     '<button type="button" class="btn mini" data-foto="tomar">' + ico('camara', 's') + 'Repetir</button>' +
     '<button type="button" class="btn mini" data-foto="quitar">' + ico('x', 's') + 'Quitar</button>' +
@@ -1710,7 +1710,7 @@ async function construirPdf(lista, op) {
   titulo('Detalle por estar');
   const conFotos = !!op.fotos;
   const cab = ['#', 'Torre', 'Piso', 'Servicio', 'Estar', 'Gases', 'Cable (m)', 'Válvula / observación', 'Estado'];
-  if (conFotos) cab.push('Foto');
+  if (conFotos) cab.push('Lugar de la alarma');
   // Con dos sedes, cada sede lleva su propia fila de título
   const filasDetalle = [];
   let sedeActual = null;
