@@ -1,0 +1,94 @@
+/*****************************************************************
+ * SERVICE WORKER — hace que la app abra sin señal.
+ *
+ * Guarda una copia de los archivos de la app en el celular
+ * (también el generador de PDF, para hacer PDF sin señal).
+ * Con señal trae la versión más reciente; sin señal (o si la red
+ * tarda más de 3 segundos) usa la copia guardada.
+ *
+ * Si cambias algún archivo de la app, sube también el número de
+ * VERSION para que los celulares renueven la copia.
+ *****************************************************************/
+
+const VERSION = 'alarmas-gases-v1';
+
+const ARCHIVOS = [
+  './',
+  'index.html',
+  'app.js',
+  'config.js',
+  'manifest.webmanifest',
+  'logo.jpg',
+  'icon-192.png',
+  'icon-512.png',
+  'icon-maskable-512.png',
+  'lib/jspdf.umd.min.js',
+  'lib/jspdf.plugin.autotable.min.js'
+];
+
+self.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open(VERSION)
+      .then(function(cache) {
+        // cache: 'reload' evita copiar archivos viejos guardados por el navegador
+        return cache.addAll(ARCHIVOS.map(function(url) {
+          return new Request(url, { cache: 'reload' });
+        })).then(function() {
+          // La letra es opcional: si falta, la app usa la del celular
+          return cache.add('PlusJakartaSans.ttf').catch(function() {});
+        });
+      })
+      .then(function() { return self.skipWaiting(); })
+  );
+});
+
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys()
+      .then(function(nombres) {
+        return Promise.all(
+          nombres
+            .filter(function(nombre) { return nombre !== VERSION; })
+            .map(function(nombre) { return caches.delete(nombre); })
+        );
+      })
+      .then(function() { return self.clients.claim(); })
+  );
+});
+
+self.addEventListener('fetch', function(event) {
+  const peticion = event.request;
+
+  // Los envíos a Apps Script (POST, otro dominio) no pasan por aquí
+  if (peticion.method !== 'GET' ||
+      new URL(peticion.url).origin !== self.location.origin) {
+    return;
+  }
+
+  event.respondWith(
+    caches.open(VERSION).then(function(cache) {
+
+      // no-cache: siempre pregunta a GitHub si hay versión nueva
+      const deLaRed = fetch(peticion, { cache: 'no-cache' }).then(function(respuesta) {
+        if (respuesta && respuesta.ok) {
+          cache.put(peticion, respuesta.clone());
+        }
+        return respuesta;
+      });
+
+      const espera = new Promise(function(resolve) {
+        setTimeout(resolve, 3000);
+      });
+
+      return cache.match(peticion, { ignoreSearch: true })
+        .then(function(guardada) {
+          if (!guardada) return deLaRed;
+          // Hay copia: se usa si la red falla o tarda demasiado
+          return Promise.race([
+            deLaRed.catch(function() { return guardada; }),
+            espera.then(function() { return guardada; })
+          ]);
+        });
+    })
+  );
+});
