@@ -99,6 +99,15 @@ textarea.entrada{min-height:72px;font-size:16px;font-weight:500;resize:vertical}
 .piso .n.gris{background:#EEF0F2;color:var(--suave)}
 .piso[aria-pressed="true"] .n{background:#fff;color:var(--vino)}
 .link{border:0;background:none;color:var(--vino);font-weight:700;font-size:14px;min-height:44px;padding:0 4px;display:inline-flex;align-items:center;gap:6px;text-align:left}
+.btn-sin{width:100%;margin-top:10px;min-height:50px;border-radius:12px;border:1.5px dashed var(--linea);background:#fff;color:var(--suave);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-sin:active,.btn-sin:hover{border-color:var(--vino);color:var(--vino);background:var(--vino-suave)}
+.piso-sin-ok{margin-top:10px;border-radius:14px;background:#EAF5EF;color:#17663F;padding:14px;display:flex;flex-direction:column;gap:12px}
+.piso-sin-ok p{margin:0;display:flex;gap:8px;align-items:flex-start;font-weight:700;font-size:15px;line-height:1.35}
+.piso-sin-ok small{display:block;font-weight:500;font-size:13px;color:#2f5f45;margin-top:2px}
+.piso-sin-ok .acciones{display:flex;gap:8px}
+.piso-sin-ok .acciones button{flex:1;min-height:48px;border-radius:12px;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid #17663F;background:#fff;color:#17663F}
+.piso-sin-ok .acciones button.lleno{background:var(--vino);border-color:var(--vino);color:#fff}
+#vRegistrar.piso-sin .solo-alarma{display:none!important}
 .nota-piso{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--suave);margin-top:6px}
 
 /* Estar */
@@ -450,6 +459,7 @@ a.btn{text-decoration:none}
   <symbol id="i-checklist" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4M3 7l2 2 4-4M13 6h8M13 12h8M13 18h8"/></symbol>
   <symbol id="i-cuadro" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></symbol>
   <symbol id="i-cuadro-check" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-flecha" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
   <symbol id="i-circulo-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
   <symbol id="i-guardar" viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7M7 3v4a1 1 0 0 0 1 1h7"/></symbol>
   <symbol id="i-salir" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></symbol>
@@ -533,7 +543,7 @@ a.btn{text-decoration:none}
         </div>
       </section>
 
-      <section class="tarjeta" id="tarjetaEstar" aria-labelledby="tEstar">
+      <section class="tarjeta solo-alarma" id="tarjetaEstar" aria-labelledby="tEstar">
         <h2 class="tit-tarjeta" id="tEstar"><svg class="i"><use href="#i-hospital"/></svg>Estar de enfermería</h2>
         <div class="campo">
           <span class="etq">Servicio</span>
@@ -554,7 +564,7 @@ a.btn{text-decoration:none}
       </div>
 
       <div class="col-reg">
-      <section class="tarjeta" aria-labelledby="tGases">
+      <section class="tarjeta solo-alarma" aria-labelledby="tGases">
         <h2 class="tit-tarjeta" id="tGases"><svg class="i"><use href="#i-manometro"/></svg>¿Qué gases llegan?</h2>
         <div id="fGases" class="gases" role="group" aria-label="Gases">
           <button type="button" class="gas-t O" data-gas="O" aria-pressed="true"><span class="nom"><span class="pt O"></span>Oxígeno</span><small></small></button>
@@ -564,13 +574,13 @@ a.btn{text-decoration:none}
         <p class="error-campo oculto" data-error="gases" style="margin-top:8px"></p>
       </section>
 
-      <section class="tarjeta" aria-labelledby="tFoto">
+      <section class="tarjeta solo-alarma" aria-labelledby="tFoto">
         <h2 class="tit-tarjeta" id="tFoto"><svg class="i"><use href="#i-camara"/></svg>Foto del lugar de la alarma</h2>
         <div id="fFoto"></div>
         <input id="fFotoArchivo" type="file" accept="image/*" capture="environment" class="oculto" aria-hidden="true" tabindex="-1">
       </section>
 
-      <section class="tarjeta" aria-labelledby="tValvula">
+      <section class="tarjeta solo-alarma" aria-labelledby="tValvula">
         <h2 class="tit-tarjeta" id="tValvula"><svg class="i"><use href="#i-sede"/></svg>Válvula de cierre</h2>
         <div class="campo">
           <label class="etq" for="fValvula">Ubicación de la válvula de cierre<em>opcional</em></label>
@@ -581,7 +591,7 @@ a.btn{text-decoration:none}
       </div>
 
       <div class="col-reg">
-      <section class="tarjeta" aria-labelledby="tCable">
+      <section class="tarjeta solo-alarma" aria-labelledby="tCable">
         <h2 class="tit-tarjeta" id="tCable"><svg class="i"><use href="#i-regla"/></svg>Cable de la válvula a la alarma</h2>
         <div class="cable-paso">
           <button id="cableMenos" type="button" class="redondo" aria-label="Un metro menos"><svg class="i"><use href="#i-menos"/></svg></button>
@@ -599,7 +609,7 @@ a.btn{text-decoration:none}
         <p class="error-campo oculto centro" data-error="cable" style="margin-top:6px"></p>
       </section>
 
-      <details id="fMas" class="tarjeta">
+      <details id="fMas" class="tarjeta solo-alarma">
         <summary><svg class="i"><use href="#i-abajo"/></svg>Más: observación y estado</summary>
         <div class="campo">
           <label class="etq" for="fObs">Observación<em>opcional</em></label>
@@ -614,7 +624,7 @@ a.btn{text-decoration:none}
         </div>
       </details>
 
-      <div id="resumenAlarma" class="resumen-alarma" aria-live="polite"></div>
+      <div id="resumenAlarma" class="resumen-alarma solo-alarma" aria-live="polite"></div>
 
       <div id="zonaBorrar" class="zona-borrar oculto">
         <button id="btnBorrar" type="button" class="btn peligro"><svg class="i"><use href="#i-basura"/></svg>Eliminar alarma</button>
@@ -627,7 +637,7 @@ a.btn{text-decoration:none}
         </div>
       </div>
 
-      <div id="barraGuardar" class="barra">
+      <div id="barraGuardar" class="barra solo-alarma">
         <div class="dentro" id="barraDentro">
           <button id="btnCancelarEd" type="button" class="btn oculto">Cancelar</button>
           <button id="btnGuardar" type="button" class="btn prin"><svg class="i"><use href="#i-guardar"/></svg><span id="btnGuardarTxt">Guardar y seguir</span></button>

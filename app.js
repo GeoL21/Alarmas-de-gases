@@ -627,11 +627,30 @@ function pintarRegistrar() {
 function pintarSinAlarma() {
   const f = S.f;
   const caja = $('fSinAlarma');
-  if (!f.piso || S.editando || contar(f.sede, f.torre, f.piso)) { caja.innerHTML = ''; return; }
-  caja.innerHTML = esSinAlarma(f.sede, f.torre, f.piso)
-    ? '<p class="nota-piso">' + ico('circulo-check', 's') + '<span>Revisado: este piso no lleva alarma.</span>' +
-      '<button type="button" class="link" data-sin="0">Desmarcar</button></p>'
-    : '<button type="button" class="link" data-sin="1">' + ico('check', 's') + 'Este piso no lleva alarma</button>';
+  const aplica = f.piso && !S.editando && !contar(f.sede, f.torre, f.piso);
+  const sin = aplica && esSinAlarma(f.sede, f.torre, f.piso);
+  // Si el piso no lleva alarma, se esconde el formulario de la alarma: no hay nada que llenar
+  $('vRegistrar').classList.toggle('piso-sin', !!sin);
+  if (!aplica) { caja.innerHTML = ''; return; }
+  if (!sin) {
+    caja.innerHTML = '<button type="button" class="btn-sin" data-sin="1">' + ico('check', 's') + 'Este piso no lleva alarma</button>';
+    return;
+  }
+  const sig = pisoSiguiente();
+  caja.innerHTML = '<div class="piso-sin-ok" role="status">' +
+      '<p>' + ico('circulo-check', 's') + '<span>' + esc(nombrePiso(f.piso)) + ' revisado: no lleva alarma.' +
+        '<small>Queda guardado así. No hay que llenar nada más en este piso.</small></span></p>' +
+      '<div class="acciones">' +
+        '<button type="button" data-sin="0">Desmarcar</button>' +
+        (sig ? '<button type="button" class="lleno" data-ir-piso="' + esc(sig.k) + '">Ir a ' + esc(sig.nombre) + ico('flecha', 's') + '</button>' : '') +
+      '</div></div>';
+}
+
+/** Piso que sigue al actual en la torre (o null si es el último). */
+function pisoSiguiente() {
+  const niveles = nivelesDe(S.f.sede, S.f.torre);
+  const i = niveles.findIndex(function(n) { return n.k === S.f.piso; });
+  return i >= 0 && i < niveles.length - 1 ? niveles[i + 1] : null;
 }
 
 function pintarServicios() {
@@ -2279,6 +2298,8 @@ function eventos() {
     if (b) cambiarContexto({ piso: b.dataset.piso });
   });
   $('fSinAlarma').addEventListener('click', function(e) {
+    const ir = e.target.closest('[data-ir-piso]');
+    if (ir) { cambiarContexto({ piso: ir.dataset.irPiso }); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
     const b = e.target.closest('[data-sin]');
     if (b) marcarSinAlarma(S.f.sede, S.f.torre, S.f.piso, b.dataset.sin === '1');
   });
