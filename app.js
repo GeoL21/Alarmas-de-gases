@@ -11,6 +11,9 @@
 
 'use strict';
 
+// Desplazamiento suave, salvo que el teléfono tenga activado "reducir movimiento"
+const DESPLAZA = (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) ? 'auto' : 'smooth';
+
 const VERSION_APP = '1.0';
 
 /***********************
@@ -141,7 +144,7 @@ function verElemento(el) {
   if (!el) return;
   const arriba = $('arriba') ? $('arriba').offsetHeight : 80;
   const y = el.getBoundingClientRect().top + window.scrollY - arriba - 12;
-  window.scrollTo({ top: Math.max(y, 0), behavior: 'smooth' });
+  window.scrollTo({ top: Math.max(y, 0), behavior: DESPLAZA });
 }
 
 
@@ -2299,7 +2302,7 @@ function eventos() {
   });
   $('fSinAlarma').addEventListener('click', function(e) {
     const ir = e.target.closest('[data-ir-piso]');
-    if (ir) { cambiarContexto({ piso: ir.dataset.irPiso }); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    if (ir) { cambiarContexto({ piso: ir.dataset.irPiso }); window.scrollTo({ top: 0, behavior: DESPLAZA }); return; }
     const b = e.target.closest('[data-sin]');
     if (b) marcarSinAlarma(S.f.sede, S.f.torre, S.f.piso, b.dataset.sin === '1');
   });

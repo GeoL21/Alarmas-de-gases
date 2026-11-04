@@ -68,7 +68,7 @@ button{cursor:pointer}
 .error-campo{font-size:13px;font-weight:700;color:var(--rojo-txt);display:flex;gap:6px;align-items:center}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--linea);background:#fff;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:background .12s,border-color .12s}
+.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--linea);background:#fff;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:transform 150ms var(--ease-out)}
 .chip[aria-pressed="true"]{background:var(--vino);border-color:var(--vino);color:#fff;font-weight:700}
 .chip.mas{border-style:dashed;color:var(--suave)}
 .chip.mini{min-height:40px;padding:0 12px;font-size:14px}
@@ -223,7 +223,7 @@ a.btn{text-decoration:none}
 .avance+.avance{margin-top:12px}
 .avance .etq b{font-variant-numeric:tabular-nums}
 .barra-av{height:10px;border-radius:5px;background:var(--linea-suave);overflow:hidden;margin-top:6px}
-.barra-av i{display:block;height:100%;border-radius:5px;transition:width .3s}
+.barra-av i{display:block;height:100%;border-radius:5px;transition:width 300ms linear}
 .fila-piso{width:100%;min-height:50px;display:flex;align-items:center;gap:8px;border:1.5px solid var(--linea-suave);border-radius:12px;background:#fff;padding:0 12px;margin-top:6px;font-size:15px;font-weight:800;text-align:left}
 .fila-piso .fn{flex:1;text-align:right;font-weight:600;color:var(--vino-osc);font-size:14px}
 .fila-piso.vacio-p{border-style:dashed;color:var(--suave)}
@@ -253,8 +253,8 @@ a.btn{text-decoration:none}
 .interruptor+.interruptor{border-top:1px solid var(--linea-suave)}
 .interruptor b{display:block;font-size:15px;font-weight:700}
 .interruptor small{display:block;font-size:13px;color:var(--suave)}
-.sw{width:50px;height:30px;border-radius:15px;background:#C9BCC1;position:relative;flex:none;transition:background .15s}
-.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.sw{width:50px;height:30px;border-radius:15px;background:#C9BCC1;position:relative;flex:none;transition:background 200ms var(--ease-out)}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left 200ms var(--ease-out);box-shadow:0 1px 2px rgba(0,0,0,.2)}
 .interruptor[aria-checked="true"] .sw{background:var(--vino)}
 .interruptor[aria-checked="true"] .sw::after{left:23px}
 .ck{width:100%;min-height:48px;display:flex;align-items:center;gap:10px;border:0;border-bottom:1px solid var(--linea-suave);background:none;text-align:left;padding:4px 2px;font-size:14px;font-weight:600}
@@ -300,7 +300,7 @@ a.btn{text-decoration:none}
 
 /* Avisos flotantes */
 .toast{position:fixed;left:16px;right:16px;bottom:calc(142px + env(safe-area-inset-bottom));z-index:9;display:flex;justify-content:center;pointer-events:none}
-.toast>div{background:#1F2937;color:#fff;border-radius:12px;padding:12px 16px;font-size:15px;font-weight:600;display:flex;gap:10px;align-items:center;max-width:560px;box-shadow:0 6px 20px rgba(0,0,0,.2);animation:sube .2s ease-out}
+.toast>div{background:#1F2937;color:#fff;border-radius:12px;padding:12px 16px;font-size:15px;font-weight:600;display:flex;gap:10px;align-items:center;max-width:560px;box-shadow:0 6px 20px rgba(0,0,0,.2);animation:sube .2s var(--ease-out)}
 .toast>div span{display:flex;gap:8px;align-items:center}
 .toast>div.con-accion{pointer-events:auto;padding:6px 6px 6px 16px}
 .toast button{border:0;background:rgba(255,255,255,.12);color:#F6C9D8;font-weight:800;font-size:14px;border-radius:10px;min-height:44px;padding:0 12px;display:flex;align-items:center;gap:6px;flex:none}
@@ -416,6 +416,14 @@ a.btn{text-decoration:none}
 @media (min-width:1024px) and (max-width:1279px){
   .tabla-al .col-obs,.tabla-al .col-tec{display:none}
 }
+
+/* ---------- Movimiento (skill motion) ---------- */
+/* Botones: se encogen un poco al tocarlos (150 ms) para que se note la respuesta */
+:root{--ease-out:cubic-bezier(0.23,1,0.32,1)}
+button,.btn{transition:transform 150ms var(--ease-out)}
+button:active:not(:disabled),.btn:active{transform:scale(.98)}
+/* Con "reducir movimiento" activado en el teléfono: sin escalas */
+@media (prefers-reduced-motion:reduce){button:active:not(:disabled),.btn:active{transform:none!important}}
 </style>
 </head>
 <body>
