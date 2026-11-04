@@ -40,7 +40,7 @@ Con la ventana ancha (desde 1024 px) la app se acomoda en columnas: menú a la i
 
 Están en la pestaña **Config** de la hoja y se pueden cambiar ahí:
 
-- **Código de acceso** (`cilindrocrc`): para entrar a la app.
+- **Código de acceso**: para entrar a la app. Nace como `CAMBIAR-ESTE-CODIGO`; cámbialo en la pestaña Config apenas configures la hoja.
 - **Clave de administrador**: se crea al azar cuando ejecutas `configurar` (sale en el mensaje y en la pestaña Config). Sirve para cambiar torres, pisos, técnicos y reserva de cable desde **Ajustes** en la app. Dásela solo a quien deba cambiar esos datos.
 
 ## Torres y pisos

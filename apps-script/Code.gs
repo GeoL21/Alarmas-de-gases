@@ -47,7 +47,7 @@ const CONFIG_INICIAL = [
   ['Técnicos Baranoa', ['Kevin Gamero']],
   ['Servicios sugeridos', ['HOSPITALIZACIÓN', 'CIRUGÍA', 'UCI', 'URGENCIAS', 'HEMODINAMIA', 'RAYOS X']],
   ['Reserva de cable (%)', ['0']],
-  ['Código de acceso', ['cilindrocrc']],
+  ['Código de acceso', ['CAMBIAR-ESTE-CODIGO']],   // cámbialo en la pestaña Config al configurar
   ['Clave de administrador', ['']]   // se crea al azar al configurar la hoja
 ];
 
