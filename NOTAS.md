@@ -27,6 +27,8 @@ El `README.md` explica la instalación paso a paso.
   títulos de sección en vino con chip "Listo" (Dónde estás, Estar, Cable; no en Gases porque siempre trae opciones);
   foto y válvula marcadas "opcional"; barra de abajo con pastilla rosada (riel lateral en PC).
   Letra Google Sans Flex (Plus Jakarta Sans queda de respaldo). Mismos campos, pasos, hoja y PDF.
+- Sonidos (17 nov 2026), los mismos de Control de cilindros, con vibración: "listo" al guardar una alarma o marcar
+  un piso sin alarma; "falta" al guardar con algo sin llenar; "error" si no se puede guardar o el servidor rechaza un estar repetido.
 
 ## Cómo trabajar aquí
 - Preguntar antes de cambiar algo y mostrar un bosquejo para aprobar.

@@ -788,11 +788,39 @@ async function procesarFoto(archivo) {
 let guardando = false, bloqueoHasta = 0;
 
 /** Evita guardar dos veces por un doble toque. */
+/* ---------- Sonidos (generados aquí: no necesitan archivos ni internet) y vibración corta ---------- */
+let actx = null;
+function prepararSonido() {
+  try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); } catch (e) { /* sin sonido */ }
+}
+function tono(notas, vol) {
+  try {
+    if (!actx) return;
+    const t0 = actx.currentTime + 0.02;
+    notas.forEach(function(n) {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = n[0];
+      g.gain.setValueAtTime(0.0001, t0 + n[1]);
+      g.gain.exponentialRampToValueAtTime(vol, t0 + n[1] + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + n[2]);
+      o.connect(g); g.connect(actx.destination); o.start(t0 + n[1]); o.stop(t0 + n[1] + n[2] + 0.05);
+    });
+  } catch (e) { /* sin sonido */ }
+}
+function vibrar(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) { /* nada */ } }
+function sonarListo() { tono([[784, 0, 0.28], [1046.5, 0.13, 0.28], [1318.5, 0.26, 0.5]], 0.22); vibrar([50, 60, 90]); }
+function sonarFalta() { tono([[659.3, 0, 0.18], [523.3, 0.16, 0.32]], 0.18); vibrar(80); }
+function sonarError() { tono([[330, 0, 0.25], [247, 0.2, 0.4]], 0.2); vibrar(250); }
+
 async function guardar() {
   if (guardando || Date.now() < bloqueoHasta) return;
   guardando = true;
+  prepararSonido();
   try {
     await guardarAhora();
+  } catch (e) {
+    sonarError();
+    toast(ico('alerta', 's') + 'No se pudo guardar en este celular. Intenta de nuevo.');
   } finally {
     guardando = false;
   }
@@ -832,6 +860,7 @@ async function guardarAhora() {
   }
   if (errores.length) {
     verElemento(errores[0].closest('.tarjeta') || errores[0]);
+    sonarFalta();
     toast(ico('alerta', 's') + 'Revisa lo marcado en rojo');
     return;
   }
@@ -865,6 +894,7 @@ async function guardarAhora() {
   }
   const fotoDeshacer = f.foto ? { blob: f.foto, mini: f.fotoMini } : null;
   await encolar(op);
+  sonarListo();
 
   if (previo) {
     terminarEdicion();
@@ -1007,12 +1037,14 @@ async function cambiarEstado(id) {
 }
 
 async function marcarSinAlarma(sede, torre, piso, valor) {
+  prepararSonido();
   S.cola = S.cola.filter(function(op, j) {
     return !(op.accion === 'piso' && op.sede === sede && op.torre === torre && op.piso === piso &&
       !(S.sincronizando && j === 0));
   });
   await encolar({ accion: 'piso', sede: sede, torre: torre, piso: piso, sinAlarma: valor, tecnico: S.tecnico });
   repintar();
+  if (valor) sonarListo();
   toast(ico('check', 's') + (valor ? 'Marcado: ' + nombrePiso(piso) + ' no lleva alarma' : 'Marca quitada'));
   sincronizar();
 }
@@ -1100,6 +1132,7 @@ async function sincronizar() {
         // Otro técnico ya registró ese estar: este no se sube
         if (e.codigo !== 'REPETIDO' || op.accion !== 'guardar') throw e;
         S.avisos.push(e.message);
+        sonarError();
         ls('ag_avisos', S.avisos);
         delete S.minis[op.a.id];
         await borrarDato('mini:' + op.a.id);
