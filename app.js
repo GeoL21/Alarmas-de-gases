@@ -1296,7 +1296,7 @@ function filaAlarma(a) {
     g.length + ' × ' + num(a.cable) + ' m' +
     (a.valvula ? '<br>' + esc(a.valvula) : '') +
     (a.pendiente ? '<br><span class="sin-subir">' + ico('sinred', 's') + 'Sin subir</span>' : '');
-  return '<div class="fila-al"><button type="button" class="abrir" data-editar="' + esc(a.id) + '" ' +
+  return '<div class="fila-al' + (a.estado === 'Instalada' ? ' instalada' : '') + '"><button type="button" class="abrir" data-editar="' + esc(a.id) + '" ' +
     'aria-label="Editar ' + esc(a.servicio) + ' estar ' + a.estar + '">' + foto +
     '<span class="txt"><b>' + esc(a.servicio) + ' · ESTAR ' + a.estar + '</b><small>' + sub + '</small></span></button>' +
     botonEstado(a) + '</div>';
