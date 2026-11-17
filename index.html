@@ -689,7 +689,7 @@ details.tarjeta>summary{color:var(--tinta);font-weight:700}
     </div>
 
     <!-- Registrar -->
-    <main id="vRegistrar" class="cuerpo">
+    <main id="vRegistrar" class="cuerpo oculto">
       <div id="bannerInstalar" class="instalar oculto">
         <div class="fila-inst">
           <img src="icon-192.png" alt="">
@@ -812,7 +812,7 @@ details.tarjeta>summary{color:var(--tinta);font-weight:700}
         </div>
       </div>
 
-      <div id="barraGuardar" class="barra solo-alarma">
+      <div id="barraGuardar" class="barra solo-alarma oculto">
         <div class="dentro" id="barraDentro">
           <button id="btnCancelarEd" type="button" class="btn oculto">Cancelar</button>
           <button id="btnGuardar" type="button" class="btn prin"><svg class="i"><use href="#i-guardar"/></svg><span id="btnGuardarTxt">Guardar y seguir</span></button>
@@ -835,7 +835,7 @@ details.tarjeta>summary{color:var(--tinta);font-weight:700}
     </main>
 
     <!-- Panel -->
-    <main id="vPanel" class="cuerpo oculto">
+    <main id="vPanel" class="cuerpo">
       <div id="pSede" class="seg" role="group" aria-label="Sede"></div>
       <div id="pCifras" class="cifras"></div>
       <div id="pAvance" class="tarjeta"></div>
@@ -915,9 +915,9 @@ details.tarjeta>summary{color:var(--tinta);font-weight:700}
 
     <nav class="nav" aria-label="Secciones">
       <div class="dentro">
-        <button id="navRegistrar" aria-current="page"><svg class="i"><use href="#i-registrar"/></svg>Registrar</button>
+        <button id="navPanel" aria-current="page"><svg class="i"><use href="#i-panel"/></svg>Panel</button>
         <button id="navAlarmas"><svg class="i"><use href="#i-lista"/></svg>Alarmas<span id="navPunto" class="punto oculto"></span></button>
-        <button id="navPanel"><svg class="i"><use href="#i-panel"/></svg>Panel</button>
+        <button id="navRegistrar"><svg class="i"><use href="#i-registrar"/></svg>Registrar</button>
         <button id="navPdf"><svg class="i"><use href="#i-pdf"/></svg>PDF</button>
       </div>
     </nav>

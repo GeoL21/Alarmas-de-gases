@@ -398,7 +398,7 @@ const S = {
   minis: {},           // miniaturas de fotos guardadas en el celular
   tecnico: '',
   sedeTec: '',
-  vista: 'registrar',
+  vista: 'panel',   // la app abre en Panel
   pantalla: '',
   f: {
     sede: '', torre: '', piso: '', servicio: '', otro: false, estar: 1,
@@ -2311,7 +2311,7 @@ function seguir() {
   if (!S.tecnico) { mostrarTurno(); return; }
   mostrarPantalla('principal');
   medirArriba();
-  irA(S.vista === 'ajustes' ? 'registrar' : S.vista);
+  irA(S.vista === 'ajustes' ? 'panel' : S.vista);
   pintarFranja();
   pintarInstalar();
 }
@@ -2590,7 +2590,7 @@ function eventos() {
   });
 
   // --- Ajustes ---
-  $('ajVolver').onclick = function() { irA('registrar'); };
+  $('ajVolver').onclick = function() { irA('panel'); };
   $('ajCambiarTec').onclick = mostrarTurno;
   $('ajSubir').onclick = function() {
     if (!S.cola.length) { toast(ico('check', 's') + 'No hay cambios por subir'); return; }
