@@ -713,6 +713,7 @@ function pintarValvulas() {
 }
 
 function pintarResumen() {
+  pintarListos();
   const n = S.f.gases.length;
   const c = leerNumero($('fCable').value);
   const m = c > 0 ? c : 0;
@@ -2144,7 +2145,33 @@ async function guardarAjustes() {
  ***********************/
 
 function pintarCabecera() {
-  $('cabSub').textContent = S.tecnico ? S.tecnico + ' · ' + S.sedeTec : '';
+  const nombre = String(S.tecnico || '').toLowerCase().replace(/(^|\s)\S/g, function(m) { return m.toUpperCase(); });
+  $('cabSub').textContent = S.tecnico ? nombre + ' · ' + S.sedeTec : '';
+}
+
+/** Reloj pequeño del encabezado: hora de Colombia, con "a. m." / "p. m.". */
+function pintarReloj() {
+  const el = $('reloj');
+  if (!el) return;
+  const t = new Date().toLocaleTimeString('es-CO', { timeZone: 'America/Bogota', hour: 'numeric', minute: '2-digit', hour12: true })
+    .replace(/\s+/g, ' ').replace(/a\.?\s?m\.?/i, 'a. m.').replace(/p\.?\s?m\.?/i, 'p. m.');
+  el.innerHTML = '<svg class="i s"><use href="#i-reloj"/></svg>' + t;
+}
+
+/** Chips "Listo" de Registrar: se encienden cuando cada parte está completa. */
+const SELLO = '<svg viewBox="0 -960 960 960" aria-hidden="true"><path d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm94-278 226-226-56-58-170 170-86-84-56 56 142 142Z"/></svg>';
+function ponerListo(id, ok) {
+  const el = $(id);
+  if (!el || (el.dataset.ok === '1') === ok) return;
+  el.dataset.ok = ok ? '1' : '';
+  el.innerHTML = ok ? SELLO + 'Listo' : '';
+}
+function pintarListos() {
+  if (!$('okDonde')) return;
+  const f = S.f;
+  ponerListo('okDonde', !!(f.sede && f.torre && f.piso));
+  ponerListo('okEstar', !!servicioActual() && Number(f.estar) > 0);
+  ponerListo('okCable', leerNumero($('fCable').value) > 0);
 }
 
 function irA(vista) {
@@ -2649,6 +2676,11 @@ async function iniciar() {
 
   eventos();
   seguir();
+  pintarReloj();
+  setInterval(pintarReloj, 20000);
+  ['click', 'input', 'change'].forEach(function(t) {
+    document.addEventListener(t, function() { setTimeout(pintarListos, 0); });
+  });
   if (codigoAcceso()) sincronizar();
 
   if ('serviceWorker' in navigator) {

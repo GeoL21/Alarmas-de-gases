@@ -3,9 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#79022C">
+<meta name="theme-color" content="#FFF7F6">
 <meta name="description" content="Levantamiento de alarmas de gases medicinales por estar de enfermería. Funciona sin señal.">
 <title>Alarmas de gases</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700;800&display=swap">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png?v=20261117">
 <link rel="apple-touch-icon" href="icon-192.png?v=20261117">
@@ -424,6 +427,137 @@ button,.btn{transition:transform 150ms var(--ease-out)}
 button:active:not(:disabled),.btn:active{transform:scale(.98)}
 /* Con "reducir movimiento" activado en el teléfono: sin escalas */
 @media (prefers-reduced-motion:reduce){button:active:not(:disabled),.btn:active{transform:none!important}}
+
+/* ---------- Estándar visual (Material 3, estilo Mornye) – 17 nov 2026 ----------
+   Solo cambia la apariencia: mismos campos, pasos, cálculos, hoja y PDF. */
+:root{--vino:#84303F;--vino-osc:#6B2433;--vino-suave:#FFCCD4;--vino-medio:#EFD5D9;--cont:#33030F;
+  --fondo:#FFF7F6;--tarjeta:#F7E3E6;--tarjeta2:#EFD5D9;--tinta:#160D0E;--suave:#45343A;--linea:#D3B8BC;--linea-suave:#EFD5D9;--apagado:#857374;
+  --ok-suave:#D3F0DC;--ok-txt:#1B5E33;--radio:28px;--m3:cubic-bezier(.2,0,0,1);--m3in:cubic-bezier(.05,.7,.1,1);--rebote:cubic-bezier(.34,1.56,.64,1)}
+html,body{font-family:'Google Sans Flex','Roboto Flex','Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:500;background:var(--fondo)}
+/* Encabezado: volver + ajustes, logo, título grande, técnico · sede y reloj */
+.arriba{background:var(--fondo);position:relative}
+.cab{display:block;background:var(--fondo);color:var(--tinta);padding:calc(14px + env(safe-area-inset-top)) 16px 6px}
+.cab-fila{display:flex;align-items:center;justify-content:space-between}
+.cab-izq{display:flex;gap:8px}
+.btn-red{width:48px;height:48px;border-radius:24px;border:0;background:var(--tarjeta2);color:var(--tinta);display:flex;align-items:center;justify-content:center;flex:none;text-decoration:none}
+.btn-red .i{width:24px;height:24px}
+#btnInstalar.btn-red{background:var(--vino-suave);color:var(--cont)}
+.cab .logo{width:52px;height:52px;border-radius:50%;background:#fff;object-fit:cover}
+.cab h1{margin:20px 4px 4px;font-size:34px;line-height:40px;font-weight:800;letter-spacing:-.3px;color:var(--tinta)}
+.cab-sub{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 4px}
+.cab-sub small{font-size:15px;font-weight:500;color:var(--suave);opacity:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.hora{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:16px;background:var(--tarjeta);font-size:14px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums;flex:none}
+.hora:empty{display:none}
+.franja{margin:6px 16px 0;border-radius:16px}
+/* Títulos de sección con chip Listo */
+.secc{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 8px -4px;font-size:15px;font-weight:700;color:var(--vino)}
+.secc .opc{font-size:12px;font-weight:600;color:var(--apagado)}
+.listo{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 10px;border-radius:13px;background:var(--ok-suave);color:var(--ok-txt);font-size:12px;font-weight:800;animation:aparece 350ms var(--rebote)}
+.listo:empty{display:none}
+.listo svg{width:15px;height:15px;fill:currentColor}
+@keyframes aparece{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+/* Tarjetas agrupadas */
+.tarjeta{background:var(--tarjeta);border:0;border-radius:28px;padding:16px}
+.tit-tarjeta{font-size:15px;font-weight:700;color:var(--vino);margin-bottom:12px}
+.tit-tarjeta .i{display:none}
+.etq{font-weight:600;color:var(--suave)}
+.etq em{color:var(--apagado)}
+.ayuda{color:var(--suave)}
+.seg{background:#fff;border-radius:24px;padding:4px;gap:4px}
+#pSede,#filtroSede .seg{background:var(--tarjeta)}
+.seg button{border-radius:20px;color:var(--tinta);font-weight:700;transition:background 350ms var(--m3),color 350ms var(--m3),transform 150ms var(--ease-out)}
+.seg button[aria-pressed="true"]{background:var(--vino);color:#fff}
+.chip{border:1px solid var(--linea);border-radius:12px;font-weight:600;transition:background 350ms var(--m3),color 350ms var(--m3),transform 150ms var(--ease-out)}
+.chip[aria-pressed="true"]{font-weight:800}
+.piso{border:0;border-radius:14px;transition:background 350ms var(--m3),color 350ms var(--m3),transform 150ms var(--ease-out)}
+.piso .n{background:var(--vino-suave);color:var(--cont)}
+.piso[aria-pressed="true"] .n{background:var(--vino-suave);color:var(--cont)}
+.btn-sin{border:1.5px dashed var(--linea);border-radius:16px;color:var(--vino);background:transparent}
+.piso-sin-ok{border-radius:20px;background:var(--ok-suave);color:var(--ok-txt)}
+.redondo{border:0;background:#fff;color:var(--tinta)}
+.gas-t{border-radius:16px;border:1.5px dashed var(--linea);font-weight:700}
+.gas-t.O[aria-pressed="true"]{background:#D7EEDD;border:1.5px solid transparent;color:#14532D}
+.gas-t.A[aria-pressed="true"]{background:#FCEFC2;border:1.5px solid transparent;color:#5C4300}
+.gas-t.V[aria-pressed="true"]{background:#E3E6EE;border:1.5px solid transparent;color:#2C3240}
+.foto-btn{border:0;border-radius:22px;background:var(--vino-suave);color:var(--cont)}
+.foto-ok img,.foto-ok .sin-img{border:0;border-radius:16px}
+.entrada{border:1px solid var(--linea);border-radius:16px;font-weight:600}
+.entrada:focus{border-color:var(--vino);box-shadow:0 0 0 3px var(--tarjeta2)}
+.entrada::placeholder{color:var(--apagado)}
+.metros .entrada{border-radius:16px}
+details.tarjeta>summary{color:var(--tinta);font-weight:700}
+.resumen-alarma{background:var(--vino-suave);color:var(--cont);border-radius:22px;padding:14px 16px}
+.tira{background:var(--vino-suave);border:0;border-radius:22px}
+.tira b{color:var(--cont)}
+.tira button{border:0;border-radius:20px;background:#fff}
+.confirmar{border:0;border-radius:20px}
+.btn{border-radius:28px}
+.btn.prin{min-height:56px;font-weight:800}
+.btn.mini{border-radius:20px}
+.barra .dentro{background:linear-gradient(to top,var(--fondo) 70%,rgba(255,247,246,0))}
+/* Barra de abajo con pastilla detrás del ícono activo */
+.nav{background:var(--tarjeta);border-top:0}
+.nav button{color:var(--suave);font-weight:600;gap:4px}
+.nav button .i{width:24px;height:24px;padding:4px 20px;box-sizing:content-box;border-radius:16px;transition:background 350ms var(--m3)}
+.nav button[aria-current="page"]{color:var(--tinta);font-weight:800}
+.nav button[aria-current="page"]::before{display:none}
+.nav button[aria-current="page"] .i{background:var(--vino-suave);color:var(--cont)}
+.nav .punto{left:calc(50% + 14px);top:6px}
+/* Listas, panel, PDF y ajustes */
+.buscar{border:1px solid var(--linea);border-radius:28px}
+.lista{border:0;border-radius:24px;background:var(--tarjeta)}
+.fila-al+.fila-al{border-top:2px solid var(--fondo)}
+.fila-al .abrir:active{background:var(--tarjeta2)}
+.mini-foto{border-radius:12px;background:var(--vino-suave);color:var(--cont)}
+.est-btn{border-radius:14px;border:0}
+.est-btn.ok{background:var(--ok-suave);color:var(--ok-txt)}
+.cifra{border:0;background:var(--tarjeta);border-radius:20px}
+.barra-av{background:#fff}
+.fila-piso{border:0;border-radius:16px}
+.fila-piso.vacio-p{border:1.5px dashed var(--linea)}
+.fila-piso[aria-expanded="true"]{background:var(--vino-suave);color:var(--cont)}
+.gas-fila .bar{background:#fff}
+.tipo+.tipo,.fila-aj+.fila-aj,.interruptor+.interruptor,.ck{border-color:#fff}
+.alcance button{border:0;border-radius:20px;background:var(--tarjeta)}
+.sw{width:52px;height:32px;border-radius:16px;background:var(--tarjeta2);box-shadow:inset 0 0 0 2px var(--apagado)}
+.sw::after{top:8px;left:8px;width:16px;height:16px;background:var(--apagado);box-shadow:none;transition:all 350ms var(--rebote)}
+.interruptor[aria-checked="true"] .sw{background:var(--vino);box-shadow:none}
+.interruptor[aria-checked="true"] .sw::after{top:4px;left:24px;width:24px;height:24px;background:#fff}
+.instalar{background:var(--tarjeta);border:0;border-radius:28px}
+.fila-inst b{color:var(--tinta)}
+.celda{border:0;border-radius:10px}
+.celda.n1{background:var(--vino-suave)}
+.celda.n3{background:var(--vino);color:#fff}
+.detalle-piso{background:var(--tarjeta);border-radius:24px}
+.tabla-al{border:0;border-radius:20px;overflow:hidden}
+.pantalla .logo-g{border:0}
+.pantalla h2{font-size:28px;color:var(--tinta)}
+.toast>div{background:#322627;border-radius:16px}
+/* Entrada suave de las secciones */
+@keyframes subeM{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+#vRegistrar>.col-reg>*,#vPanel>*{animation:subeM 450ms var(--m3in) both}
+#vRegistrar>.col-reg>*:nth-child(2){animation-delay:50ms}#vRegistrar>.col-reg>*:nth-child(3){animation-delay:100ms}#vRegistrar>.col-reg>*:nth-child(4){animation-delay:150ms}
+@media (prefers-reduced-motion:reduce){#vRegistrar>.col-reg>*,#vPanel>*,.listo{animation:none}}
+@media (max-width:359px){.cab h1{font-size:28px;line-height:34px}}
+@media (min-width:1024px){
+  .cab{padding:16px 28px 10px}
+  .nav{top:0;height:100dvh}
+  .col-vista{top:16px}
+  .cab h1{font-size:30px;line-height:36px;margin-top:10px}
+  .franja{margin:6px 28px 0}
+  .nav{background:var(--tarjeta);border-right:0;padding:16px 12px}
+  .nav button{border-radius:28px;font-weight:600;padding:0 18px;gap:14px}
+  .nav button .i{padding:0;background:none!important;width:22px;height:22px}
+  .nav button[aria-current="page"]{background:var(--vino-suave);color:var(--cont);font-weight:800}
+  .nav button:hover:not([aria-current="page"]){background:var(--tarjeta2)}
+  .secc{margin-top:0}
+  .tarjeta{padding:16px 18px}
+}
+@media (hover:hover) and (min-width:1024px){
+  .seg button:hover:not([aria-pressed="true"]){background:var(--tarjeta)}
+  .btn:hover{background:var(--tarjeta)}
+  .btn.prin:hover{background:var(--vino-osc)}
+}
 </style>
 </head>
 <body>
@@ -510,13 +644,16 @@ button:active:not(:disabled),.btn:active{transform:scale(.98)}
   <div id="vPrincipal" class="principal oculto">
     <div class="arriba" id="arriba">
     <header class="cab">
-      <img class="logo" src="logo.jpg" alt="">
-      <div class="tit">
-        <h1>Alarmas de gases</h1>
-        <small id="cabSub"></small>
+      <div class="cab-fila">
+        <div class="cab-izq">
+          <a class="btn-red" href="https://geol21.github.io/" aria-label="Volver al portal de apps"><svg class="i" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+          <button id="btnAjustes" class="btn-red" aria-label="Ajustes"><svg class="i"><use href="#i-ajustes"/></svg></button>
+          <button id="btnInstalar" class="btn-red oculto" aria-label="Instalar app"><svg class="i"><use href="#i-instalar"/></svg></button>
+        </div>
+        <img class="logo" src="logo.jpg" alt="Clínica Reina Catalina">
       </div>
-      <button id="btnInstalar" class="btn-cab oculto" aria-label="Instalar app"><svg class="i"><use href="#i-instalar"/></svg></button>
-      <button id="btnAjustes" class="btn-cab" aria-label="Ajustes"><svg class="i"><use href="#i-ajustes"/></svg></button>
+      <h1>Alarmas de gases</h1>
+      <div class="cab-sub"><small id="cabSub"></small><span class="hora" id="reloj" aria-label="Hora de Colombia"></span></div>
     </header>
     <div id="franja" class="franja oculto" role="status"></div>
     </div>
@@ -539,8 +676,8 @@ button:active:not(:disabled),.btn:active{transform:scale(.98)}
       </div>
 
       <div class="col-reg">
+      <h2 class="secc" id="tDonde"><span>¿Dónde estás?</span><span class="listo" id="okDonde"></span></h2>
       <section class="tarjeta" aria-labelledby="tDonde">
-        <h2 class="tit-tarjeta" id="tDonde"><svg class="i"><use href="#i-sede"/></svg>¿Dónde estás?</h2>
         <div id="fSede" class="seg" role="group" aria-label="Sede"></div>
         <div id="fTorre" class="seg" role="group" aria-label="Torre"></div>
         <div class="campo">
@@ -551,8 +688,8 @@ button:active:not(:disabled),.btn:active{transform:scale(.98)}
         </div>
       </section>
 
+      <h2 class="secc solo-alarma" id="tEstar"><span>Estar de enfermería</span><span class="listo" id="okEstar"></span></h2>
       <section class="tarjeta solo-alarma" id="tarjetaEstar" aria-labelledby="tEstar">
-        <h2 class="tit-tarjeta" id="tEstar"><svg class="i"><use href="#i-hospital"/></svg>Estar de enfermería</h2>
         <div class="campo">
           <span class="etq">Servicio</span>
           <div id="fServicio" class="chips" role="group" aria-label="Servicio"></div>
@@ -572,8 +709,8 @@ button:active:not(:disabled),.btn:active{transform:scale(.98)}
       </div>
 
       <div class="col-reg">
+      <h2 class="secc solo-alarma" id="tGases"><span>¿Qué gases llegan?</span></h2>
       <section class="tarjeta solo-alarma" aria-labelledby="tGases">
-        <h2 class="tit-tarjeta" id="tGases"><svg class="i"><use href="#i-manometro"/></svg>¿Qué gases llegan?</h2>
         <div id="fGases" class="gases" role="group" aria-label="Gases">
           <button type="button" class="gas-t O" data-gas="O" aria-pressed="true"><span class="nom"><span class="pt O"></span>Oxígeno</span><small></small></button>
           <button type="button" class="gas-t A" data-gas="A" aria-pressed="true"><span class="nom"><span class="pt A"></span>Aire</span><small></small></button>
@@ -582,16 +719,16 @@ button:active:not(:disabled),.btn:active{transform:scale(.98)}
         <p class="error-campo oculto" data-error="gases" style="margin-top:8px"></p>
       </section>
 
+      <h2 class="secc solo-alarma" id="tFoto"><span>Foto del lugar de la alarma</span><span class="opc">opcional</span></h2>
       <section class="tarjeta solo-alarma" aria-labelledby="tFoto">
-        <h2 class="tit-tarjeta" id="tFoto"><svg class="i"><use href="#i-camara"/></svg>Foto del lugar de la alarma</h2>
         <div id="fFoto"></div>
         <input id="fFotoArchivo" type="file" accept="image/*" capture="environment" class="oculto" aria-hidden="true" tabindex="-1">
       </section>
 
+      <h2 class="secc solo-alarma" id="tValvula"><span>Válvula de cierre</span><span class="opc">opcional</span></h2>
       <section class="tarjeta solo-alarma" aria-labelledby="tValvula">
-        <h2 class="tit-tarjeta" id="tValvula"><svg class="i"><use href="#i-sede"/></svg>Válvula de cierre</h2>
         <div class="campo">
-          <label class="etq" for="fValvula">Ubicación de la válvula de cierre<em>opcional</em></label>
+          <label class="etq" for="fValvula">Ubicación de la válvula de cierre</label>
           <input id="fValvula" class="entrada mayus" placeholder="Pasillo frente al estar" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done">
           <div id="fValvulaUsadas" class="chips"></div>
         </div>
@@ -599,8 +736,8 @@ button:active:not(:disabled),.btn:active{transform:scale(.98)}
       </div>
 
       <div class="col-reg">
+      <h2 class="secc solo-alarma" id="tCable"><span>Cable de la válvula a la alarma</span><span class="listo" id="okCable"></span></h2>
       <section class="tarjeta solo-alarma" aria-labelledby="tCable">
-        <h2 class="tit-tarjeta" id="tCable"><svg class="i"><use href="#i-regla"/></svg>Cable de la válvula a la alarma</h2>
         <div class="cable-paso">
           <button id="cableMenos" type="button" class="redondo" aria-label="Un metro menos"><svg class="i"><use href="#i-menos"/></svg></button>
           <label class="metros"><input id="fCable" class="entrada" inputmode="decimal" autocomplete="off" placeholder="0" aria-label="Metros de cable por gas" enterkeyhint="done"><span>m</span></label>

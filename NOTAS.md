@@ -21,7 +21,12 @@ El `README.md` explica la instalación paso a paso.
 
 ## Reglas que no se cambian
 - Funciona sin señal y sube los registros al volver la conexión.
-- Todo en español, con el logo y los colores de la clínica. Letra: Plus Jakarta Sans.
+- Todo en español, con el logo de la clínica.
+- Estándar visual (17 nov 2026, aprobado por Jorge): Material 3 / "estilo Mornye" (skill nueva-pwa, paso 5):
+  encabezado con volver al portal + Ajustes, logo a la derecha, título grande, "técnico · sede" y reloj;
+  títulos de sección en vino con chip "Listo" (Dónde estás, Estar, Cable; no en Gases porque siempre trae opciones);
+  foto y válvula marcadas "opcional"; barra de abajo con pastilla rosada (riel lateral en PC).
+  Letra Google Sans Flex (Plus Jakarta Sans queda de respaldo). Mismos campos, pasos, hoja y PDF.
 
 ## Cómo trabajar aquí
 - Preguntar antes de cambiar algo y mostrar un bosquejo para aprobar.
