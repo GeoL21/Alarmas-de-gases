@@ -1452,7 +1452,7 @@ function pintarPanel() {
     const sin = !k && esSinAlarma(sede, torre, n.k);
     const abierto = p.abierto === n.k;
     const rr = resumir(L);
-    let h = '<button type="button" class="fila-piso' + (k ? '' : (sin ? ' sin' : ' vacio-p')) + '" data-fila-piso="' + esc(n.k) +
+    let h = '<button type="button" class="fila-piso' + (k ? ' n' + Math.min(k, 3) : (sin ? ' sin' : ' vacio-p')) + '" data-fila-piso="' + esc(n.k) +
       '" aria-expanded="' + abierto + '"><span>' + esc(n.nombre) + '</span><span class="fn">' +
       (k ? plural(k, 'alarma', 'alarmas') + ' · ' + num(rr.cable) + ' m' : (sin ? 'No lleva alarma' : 'Sin levantar')) +
       '</span>' + ico(abierto ? 'arriba' : 'abajo', 's') + '</button>';
@@ -1531,9 +1531,9 @@ function pintarMapaPC(sedes) {
     return '<div class="torre-col"><div class="torre-tit"><b>' + esc(c.torre) + '</b><small>' +
       (sedes.length > 1 ? esc(c.sede) + ' · ' : '') + plural(n, 'alarma', 'alarmas') + '</small></div>' + celdas.join('') + '</div>';
   }).join('');
-  const leyenda = '<div class="leyenda"><span><i class="n1" style="background:var(--vino-suave)"></i>1 alarma</span>' +
-    '<span><i style="background:#E8C4D2"></i>2</span><span><i style="background:#A8436A;border-color:#A8436A"></i>3 o más</span>' +
-    '<span><i style="background:#F1F2F4"></i>No lleva alarma</span><span><i style="border-style:dashed"></i>Sin levantar</span></div>';
+  const leyenda = '<div class="leyenda"><span><i class="ln1"></i>1 alarma</span>' +
+    '<span><i class="ln2"></i>2</span><span><i class="ln3"></i>3 o más</span>' +
+    '<span><i class="lsin"></i>No lleva alarma</span><span><i class="lvacio"></i>Sin levantar</span></div>';
   $('pPisos').innerHTML = cols.length
     ? '<div class="mapa-pc"><div><div class="torres">' + mapa + '</div>' + leyenda + '</div><div class="detalle-piso">' +
       detallePisoPC() + '</div></div>'

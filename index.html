@@ -565,6 +565,29 @@ details.tarjeta>summary{color:var(--tinta);font-weight:700}
 .fila-al+.fila-al{border-top:0}
 .fila-al.instalada{background:#E3F4E8;box-shadow:none}
 .fila-al.instalada .est-btn.ok{background:#fff}
+
+/* ---------- Panel "Piso por piso" (17 nov 2026): tarjeta blanca, escala más marcada y el mismo color en mapa y lista ---------- */
+#pSeccionPisos{background:#fff;box-shadow:inset 0 0 0 1px var(--tarjeta2)}
+#pSeccionPisos .seg{background:var(--tarjeta)}
+.celda,.fila-piso{border:0;box-shadow:none}
+.celda.vacio{display:flex;flex-direction:row;align-items:center;padding:0 10px;text-align:left;gap:8px}
+.celda.vacio,.fila-piso.vacio-p{background:#fff;border:1.5px dashed var(--linea);color:var(--suave);font-weight:600}
+.celda.sin,.fila-piso.sin{background:#EEE9EA;color:var(--suave);font-weight:600}
+.celda.n1,.fila-piso.n1{background:#FFD6DC;color:#6B2433}
+.celda.n2,.fila-piso.n2{background:#D9798B;color:#fff}
+.celda.n3,.fila-piso.n3{background:#84303F;color:#fff}
+.fila-piso.n2 .fn,.fila-piso.n3 .fn,.fila-piso.n2 .i,.fila-piso.n3 .i{color:#fff}
+.fila-piso.n1 .fn{color:#6B2433}
+.fila-piso.sin .fn,.fila-piso.vacio-p .fn{color:var(--suave)}
+/* Elegido o abierto: borde completo por dentro (no se corta) */
+.celda[aria-pressed="true"],.fila-piso[aria-expanded="true"]{outline:0;box-shadow:inset 0 0 0 3px var(--vino),inset 0 0 0 5px #fff}
+.celda.n3[aria-pressed="true"],.fila-piso.n3[aria-expanded="true"]{box-shadow:inset 0 0 0 3px #33030F,inset 0 0 0 5px #fff}
+.fila-piso[aria-expanded="true"].vacio-p{border-color:transparent}
+.det-piso{background:var(--tarjeta);border-radius:0 0 16px 16px;margin-top:-4px;padding:12px}
+.leyenda i{border:0}
+.leyenda .ln1{background:#FFD6DC}.leyenda .ln2{background:#D9798B}.leyenda .ln3{background:#84303F}
+.leyenda .lsin{background:#EEE9EA}.leyenda .lvacio{background:#fff;border:1.5px dashed var(--linea)}
+@media (hover:hover){.celda:hover,.fila-piso:hover{box-shadow:inset 0 0 0 2px var(--vino)}}
 </style>
 </head>
 <body>
