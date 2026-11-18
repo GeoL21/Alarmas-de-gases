@@ -2727,8 +2727,9 @@ async function iniciar() {
     // Llegó una versión nueva: recarga sola si no hay un registro a medias
     navigator.serviceWorker.addEventListener('controllerchange', function() {
       if (!yaHabia) return;
-      S.versionNueva = true;
-      recargarSiSePuede();
+      // Avisa y deja actualizar cuando se quiera (no se pierde un registro a medias)
+      const av = document.getElementById('nuevaVer');
+      if (av) av.classList.add('on');
     });
   }
 }
