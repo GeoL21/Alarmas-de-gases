@@ -628,6 +628,21 @@ html,body{font-family:'Google Sans Flex',system-ui,-apple-system,'Segoe UI',Robo
 .i.apps{fill:currentColor!important;stroke:none!important}
 .piso{border:1px solid #D3B8BC}
 .piso[aria-pressed="true"]{border-color:#FFCCD4}
+
+/* ---------- Pantalla completa en PC (23 nov 2026): encabezado y estado en una sola línea. El celular no cambia. ---------- */
+@media (min-width:1024px){
+  .arriba{display:flex;align-items:center;gap:16px;padding-right:28px}
+  .arriba .cab{flex:1;min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;grid-template-rows:auto auto;column-gap:16px;align-items:center;padding:12px 0 12px 28px}
+  .arriba .cab .cab-fila{display:contents}
+  .arriba .cab .logo{grid-column:1;grid-row:1/3}
+  .arriba .cab .cab-izq{grid-column:4;grid-row:1/3}
+  .arriba .cab h1{grid-column:2;grid-row:1;margin:0;font-size:28px;line-height:1.15}
+  .arriba .cab .cab-sub{display:contents}
+  .arriba .cab #cabSub{grid-column:2;grid-row:2}
+  .arriba .cab .hora{grid-column:3;grid-row:1/3}
+  .arriba .franja{order:-1;flex:none;margin:0;max-width:40%}
+  .arriba .franja{order:0}
+}
 </style>
 </head>
 <body>

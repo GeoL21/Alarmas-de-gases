@@ -10,7 +10,7 @@
  * VERSION para que los celulares renueven la copia.
  *****************************************************************/
 
-const VERSION = 'alarmas-gases-v17';
+const VERSION = 'alarmas-gases-v18';
 
 const ARCHIVOS = [
   './',
